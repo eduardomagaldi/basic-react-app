@@ -1,12 +1,23 @@
 import { useState, useEffect } from 'react'
+import { Link, useSearchParams } from 'react-router'
+
+import Company from '../../helpers/types'
+import fetchData from '../../helpers/fetchData'
+
+import Loading from '../Loading'
+import Empty from '../Empty'
 
 export default () => {
-  const [data, setData] = useState([])
+  const [data, setData] = useState<Company[]>([])
   const [loading, setLoading] = useState(true)
+  const [searchParams] = useSearchParams()
 
   useEffect(() => {
     ;(async () => {
-      const resp = await fetchData()
+      const resp = await fetchData(
+        '/companies',
+        parseInt(searchParams.get('delay') || '0'),
+      )
       setData(resp)
       setLoading(false)
     })()
@@ -14,26 +25,28 @@ export default () => {
 
   return (
     <div>
-      <ul>
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          data.map((item, index) => (
-            <div key={'item-' + index}>{JSON.stringify(item)}</div>
-          ))
-        )}
-      </ul>
+      {loading ? (
+        <Loading text="Loading companies" />
+      ) : (
+        <DisplayList data={data} />
+      )}
     </div>
   )
 }
 
-async function fetchData() {
-  try {
-    const response = await fetch('https://fake-api.tractian.com/companies')
-    const result = await response.json()
-    return result
-  } catch (error) {
-    console.error('Error fetching data:', error)
-    return null
+function DisplayList({ data }: { data: Company[] }) {
+  if (data && data.length) {
+    return (
+      <>
+        <h4 className="m-0">Choose a company:</h4>
+        {data.map((item: Company, index: number) => (
+          <div key={'company-link-' + index}>
+            <Link to={`/company/${item.id}`}>{item.name}</Link>
+          </div>
+        ))}
+      </>
+    )
   }
+
+  return <Empty />
 }

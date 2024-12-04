@@ -1,0 +1,27 @@
+.wrapper-loader {
+  display: flex;
+  justify-content: center;
+}
+
+.icon {
+  width: 20px;
+}
+
+.spin {
+  transform-origin: center;
+  animation: spin 0.5s linear infinite;
+  width: 20px;
+  background-color: yellow;
+  font-size: 0;
+  display: block;
+}
+
+svg {
+  display: block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
