@@ -1,0 +1,24 @@
+.wrapper-company {
+  width: 300px;
+  padding: 10px;
+}
+
+.company {
+  border: 2px solid rgb(185, 185, 185);
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #ebecef;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.company:hover {
+  border-color: rgb(65, 121, 195);
+}
+
+.icon {
+  width: 40px;
+}
